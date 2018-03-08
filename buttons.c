@@ -41,8 +41,8 @@ void read_stop_button(void){
       set_current_direction(DIRN_STOP);
       update_all_lights();
       while (elev_get_stop_signal()){
-          printf("\nstopping");
       }
+      elev_set_stop_lamp(0);
       set_current_state(STOPPED);
   }
 }

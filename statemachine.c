@@ -27,12 +27,15 @@ void set_floor_variables(void){
 
 
 void print_status(void){
-  printf("QUE:\n");
-  print_que();
-  printf("\n");
-  printf("VARIABLES:\n");
-  printf("CURRENT FLOOR: %d\n", get_current_floor());
-  printf("CURRENT DIRECTION    %d\n", get_current_direction() );
+    printf("------------------------------------------------------------ \n");
+    printf("QUE:\n");
+    print_que();
+    printf("\n");
+    printf("VARIABLES:\n");
+    printf("Current state %d",current_state);
+    printf("\nCURRENT FLOOR: %d\n", get_current_floor());
+    printf("CURRENT DIRECTION    %d\n", get_current_direction() );
+    printf("------------------------------------------------------------ \n");
 }
 
 void set_current_state(state_t state){
@@ -59,15 +62,15 @@ void run_states(void){
         }
         else if (next_order - get_current_floor() <0){
           current_state=DRIVE_DOWN;
-          print_que();
+          print_status();
         }
         else if (next_order - get_current_floor() >0){
           current_state=DRIVE_UP;
-          print_que();
+          print_status();
         }
         else if (next_order - get_current_floor() ==0 && elev_get_floor_sensor_signal()!=-1){
           current_state=DOOR_OPEN;
-          print_que();
+          print_status();
         }
         set_dir_before_stopped(DIRN_STOP);
         read_all_buttons();
@@ -95,15 +98,15 @@ void run_states(void){
 
         	if (next_order== -1){
         		current_state=IDLE;
-            print_que();
+            print_status();
             }
             else if (next_order - get_current_floor() <0){
             	current_state=DRIVE_DOWN;
-              print_que();
+              print_status();
             }
             else if (next_order - get_current_floor() >0){
             	current_state=DRIVE_UP;
-              print_que();
+              print_status();
             }
 
 
@@ -131,7 +134,7 @@ void run_states(void){
             delete_order_from_que(temp_order_number);
             temp_order_number= check_if_should_stop(get_current_floor(), ORDER_UP);//Sjekker på nytt om det er flere ordre som blir utført.
           }
-          print_que();
+          print_status();
         }
         set_dir_before_stopped(DIRN_UP);
         read_all_buttons();
@@ -156,7 +159,7 @@ void run_states(void){
             delete_order_from_que(temp_order_number);
             temp_order_number= check_if_should_stop(get_current_floor(), ORDER_DOWN);//Sjekker på nytt om det er flere ordre som blir utført.
           }
-          print_que();
+          print_status();
         }
         set_dir_before_stopped(DIRN_DOWN);
         read_all_buttons();
@@ -165,8 +168,6 @@ void run_states(void){
 
 
         case STOPPED:
-
-        printf("ute av whileløkka \n");
         elev_set_stop_lamp(0);
 
         if (elev_get_floor_sensor_signal()!=-1){
@@ -174,14 +175,13 @@ void run_states(void){
 
         }
         else if(read_next_order()!=-1){
-            printf("next order!=-1");
             if( get_dir_before_stopped()==DIRN_UP){
               set_current_state(DRIVE_DOWN);
-              printf("\n current_state(dow)%d", current_state);
+              print_status();
             }
             else if( get_dir_before_stopped()==DIRN_DOWN){
               set_current_state(DRIVE_UP);
-              printf("\n current_state(UP)%d", current_state);
+              print_status();
             }
         }
         read_all_buttons();
