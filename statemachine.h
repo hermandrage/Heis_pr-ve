@@ -8,6 +8,7 @@ typedef enum state_type {
   DOOR_OPEN = 1,
   DRIVE_UP = 2,
   DRIVE_DOWN=3,
+  STOPPED=4,
 } state_t;
 
 

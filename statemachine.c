@@ -52,6 +52,7 @@ void run_states(void){
         case IDLE: // HER STARTER STATEN
         if (current_direction!=DIRN_STOP){//Stopper heisen
           current_direction=DIRN_STOP;
+          elev_set_motor_direction(DIRN_STOP);
         }
         next_order = read_next_order();
         if (next_order== -1){
@@ -68,6 +69,7 @@ void run_states(void){
           current_state=DOOR_OPEN;
           print_que();
         }
+        set_dir_before_stopped(DIRN_STOP);
         read_all_buttons();
         update_all_lights();
         break;
@@ -107,7 +109,7 @@ void run_states(void){
 
 
         }
-
+        set_dir_before_stopped(DIRN_STOP);
         read_all_buttons();
         update_all_lights();
         break;
@@ -131,6 +133,7 @@ void run_states(void){
           }
           print_que();
         }
+        set_dir_before_stopped(DIRN_UP);
         read_all_buttons();
         update_all_lights();
         break;
@@ -155,8 +158,36 @@ void run_states(void){
           }
           print_que();
         }
+        set_dir_before_stopped(DIRN_DOWN);
         read_all_buttons();
         update_all_lights();
+        break;
+
+
+        case STOPPED:
+
+        printf("ute av whileløkka \n");
+        elev_set_stop_lamp(0);
+
+        if (elev_get_floor_sensor_signal()!=-1){
+          set_current_state(DOOR_OPEN);
+
+        }
+        else if(read_next_order()!=-1){
+            printf("next order!=-1");
+            if( get_dir_before_stopped()==DIRN_UP){
+              set_current_state(DRIVE_DOWN);
+              printf("\n current_state(dow)%d", current_state);
+            }
+            else if( get_dir_before_stopped()==DIRN_DOWN){
+              set_current_state(DRIVE_UP);
+              printf("\n current_state(UP)%d", current_state);
+            }
+        }
+        read_all_buttons();
+        update_all_lights();
+
+
         break;
   }
 }

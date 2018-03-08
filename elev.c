@@ -19,6 +19,7 @@
 // Number of signals and lamps on a per-floor basis (excl sensor)
 #define N_BUTTONS 3
 
+elev_motor_direction_t dir_before_stopped=DIRN_STOP;
 static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] = {
     {LIGHT_UP1, LIGHT_DOWN1, LIGHT_COMMAND1},
     {LIGHT_UP2, LIGHT_DOWN2, LIGHT_COMMAND2},
@@ -46,6 +47,14 @@ void set_floor_indicator_lights_matrix(int floor){
   }
   floor_indicator_lights_matrix [floor] = 1;
 }
+int get_dir_before_stopped(void){
+    return dir_before_stopped;
+}
+void set_dir_before_stopped(elev_motor_direction_t dir){
+    dir_before_stopped=dir;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

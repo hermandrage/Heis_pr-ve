@@ -31,7 +31,8 @@ typedef enum tag_elev_motor_direction {
 static elev_motor_direction_t current_direction;
 int get_current_direction(void);
 void set_current_direction(elev_motor_direction_t dir);
-
+int get_dir_before_stopped(void);
+void set_dir_before_stopped(elev_motor_direction_t dir);
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
   Sets the motor direction of the elevator.

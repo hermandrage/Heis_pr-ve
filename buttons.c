@@ -35,22 +35,15 @@ void read_up_and_down_buttons(void) {
 //Checks if stop button is pressed, if pressed: Empty que and stops the elevator
 void read_stop_button(void){
   if (elev_get_stop_signal()){
-    elev_set_stop_lamp(1);
-    empty_que();
-    elev_set_motor_direction(DIRN_STOP);
-    set_current_direction(DIRN_STOP);
-    update_all_lights();
-    while (elev_get_stop_signal()){
-    }
-
-    if (elev_get_floor_sensor_signal()!=-1){
-      set_current_state(DOOR_OPEN);
-
-    }
-    else{
-      set_current_state(IDLE);
-    }
-    elev_set_stop_lamp(0);
+      elev_set_stop_lamp(1);
+      empty_que();
+      elev_set_motor_direction(DIRN_STOP);
+      set_current_direction(DIRN_STOP);
+      update_all_lights();
+      while (elev_get_stop_signal()){
+          printf("\nstopping");
+      }
+      set_current_state(STOPPED);
   }
 }
 
